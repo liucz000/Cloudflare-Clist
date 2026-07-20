@@ -356,6 +356,28 @@ const driveConfigMap: Record<string, { name: string; supportsMultipart: boolean;
       },
     ],
   },
+  wopan: {
+    name: "联通云盘",
+    supportsMultipart: false,
+    fields: [
+      { key: "refresh_token", label: "刷新令牌", type: "textarea", required: true, placeholder: "联通云盘刷新令牌" },
+      { key: "family_id", label: "家庭ID", type: "text", placeholder: "可选：家庭云ID" },
+      {
+        key: "sort_rule",
+        label: "排序方式",
+        type: "select",
+        options: [
+          { value: "name_asc", label: "文件名升序" },
+          { value: "name_desc", label: "文件名降序" },
+          { value: "size_asc", label: "大小升序" },
+          { value: "size_desc", label: "大小降序" },
+          { value: "time_asc", label: "时间升序" },
+          { value: "time_desc", label: "时间降序" },
+        ],
+        defaultValue: "name_asc",
+      },
+    ],
+  },
 };
 
 function supportsMultipart(type?: string): boolean {
@@ -728,6 +750,7 @@ function StorageModal({
                 <option value="gdrive">Google Drive</option>
                 <option value="alicloud">阿里云盘</option>
                 <option value="baiduyun">百度网盘</option>
+                <option value="wopan">联通云盘</option>
               </select>
             </div>
             {(isS3 || isWebdav) && (
