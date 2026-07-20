@@ -6,6 +6,7 @@ import { OneDriveClient } from "~/lib/onedrive-client";
 import { GoogleDriveClient } from "~/lib/gdrive-client";
 import { AliyunDriveClient } from "~/lib/alicloud-client";
 import { BaiduYunClient } from "~/lib/baiduyun-client";
+import { WopanClient } from "~/lib/wopan-client";
 
 // WebDAV server endpoint - provides WebDAV access to storages
 
@@ -152,7 +153,7 @@ function createUnauthorizedResponse(): Response {
   });
 }
 
-type StorageClient = S3Client | WebdevClient | OneDriveClient | GoogleDriveClient | AliyunDriveClient | BaiduYunClient;
+type StorageClient = S3Client | WebdevClient | OneDriveClient | GoogleDriveClient | AliyunDriveClient | BaiduYunClient | WopanClient;
 type StatefulClient = {
   getStateUpdates: () => { config?: Record<string, any>; saving?: Record<string, any> } | null;
 };
@@ -188,6 +189,9 @@ function createClient(storage: {
   }
   if (storage.type === "baiduyun") {
     return new BaiduYunClient({ config: storage.config, saving: storage.saving });
+  }
+  if (storage.type === "wopan") {
+    return new WopanClient({ config: storage.config, saving: storage.saving });
   }
   return new S3Client({
     endpoint: storage.endpoint,
